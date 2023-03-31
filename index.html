@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Today's Weather</title>
+    <style>
+      body {
+        background-image: url('https://images.unsplash.com/photo-1454789476662-53eb23ba5907?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=752&q=80');
+        background-size: cover;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Today's Weather</h1>
+    
+    <label for="location-input">Enter your location:</label>
+    <input type="text" id="location-input"><br><br>
+
+    <button onclick="getWeather()">Get Weather</button><br><br>
+
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      function getWeather() {
+        const location = document.getElementById("location-input").value;
+        const apiKey = "90a9dee9b5bcb3b13b55c64ea61d2046";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+        axios.get(url)
+          .then(response => {
+            const weather = response.data.weather[0].description;
+            const temp = response.data.main.temp;
+            const output = `Location: ${location}<br>Weather: ${weather}<br>Temperature: ${temp}°C`;
+            document.getElementById("result").innerHTML = output;
+          })
+          .catch(error => console.error(error));
+      }
+    </script>
+  </body>
+</html>
